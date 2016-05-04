@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/RaodBumpPlotter.iml" filepath="$PROJECT_DIR$/RaodBumpPlotter.iml" />
       <module fileurl="file://$PROJECT_DIR$/RoadBumpPlotter.iml" filepath="$PROJECT_DIR$/RoadBumpPlotter.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
