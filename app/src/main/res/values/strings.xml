@@ -5,4 +5,5 @@
     <string name="see_bumps">See Bumps</string>
     <string name="exit_app">Close App</string>
     <string name="front_page_description">Image for the front page</string>
+    <string name="gps_coordinats">Get Coordinates</string>
 </resources>
