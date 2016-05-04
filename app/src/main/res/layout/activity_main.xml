@@ -7,6 +7,56 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/place_autocomplete_prediction_primary_text"
     tools:context="com.example.nikolai.roadbumpplotter.MainActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView1"
+        android:layout_above="@+id/track_bumps"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/front_page_description"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Track_bumps"
+        android:id="@+id/track_bumps"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:textSize="30sp"
+        android:width="250sp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/see_bumps"
+        android:id="@+id/see_bumps"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/track_bumps"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:textSize="30sp"
+        android:width="250sp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exit_app"
+        android:id="@+id/exit_app"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/see_bumps"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:textSize="30sp"
+        android:width="250sp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"/>
 
 </RelativeLayout>

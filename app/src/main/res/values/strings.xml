@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">RoadBumpPlotter</string>
+    <string name="app_name">Road Bump Plotter</string>
     <string name="title_activity_maps">Map</string>
+    <string name="Track_bumps">Track Route</string>
+    <string name="see_bumps">See Bumps</string>
+    <string name="exit_app">Close App</string>
+    <string name="front_page_description">Image for the front page</string>
 </resources>
