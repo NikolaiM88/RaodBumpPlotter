@@ -9,6 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity  {
 
     Button button;
+    Button button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +20,15 @@ public class MainActivity extends AppCompatActivity  {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),TrackerActivity.class));
+                startActivity(new Intent(getApplicationContext(), TrackerActivity.class));
+            }
+        });
+
+        button2 = (Button) findViewById(R.id.see_bumps);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),MapsActivity.class));
             }
         });
     }
