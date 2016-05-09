@@ -62,7 +62,6 @@ public class TrackerActivity extends AppCompatActivity {
                         Manifest.permission.INTERNET
                 },10);
             }
-            return;
         } else {
             configureButton();
         }
@@ -74,7 +73,6 @@ public class TrackerActivity extends AppCompatActivity {
             case 10:
                 if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     configureButton();
-                return;
         }
     }
 
@@ -84,7 +82,7 @@ public class TrackerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // There is nothing wrong with this line, it only wants to ask for permission but it
                 // is handled earlier in the onCreate method
-                locationManager.requestLocationUpdates("gps", 1000, 2, locationListener);
+                locationManager.requestLocationUpdates("gps", 1000, 0, locationListener);
             }
         });
     }

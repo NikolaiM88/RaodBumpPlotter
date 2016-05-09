@@ -1,8 +1,10 @@
 package com.example.nikolai.roadbumpplotter;
 
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,11 +13,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
     private Location location;
-
+    Sensor sensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +27,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        Sensor sensor = new Sensor();
+        sensor = new Sensor();
+        sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor.sensorListener();
         sensor.magThread.start();
-
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        sensor.sensorManager.unregisterListener(sensor);
+    }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        sensor.sensorListener();
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -42,12 +55,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        if(sensor.latLng != null){
+            mMap.addMarker(new MarkerOptions()
+                    .position(sensor.getLatLng()));
+        }
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(location.getLatitude(), location.getLongitude())));
+        if(sensor.latLng != null){
+            mMap.addMarker(new MarkerOptions()
+                    .position(sensor.getLatLng()));
+        }
     }
 }

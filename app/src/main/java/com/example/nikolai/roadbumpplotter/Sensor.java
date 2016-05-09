@@ -8,6 +8,7 @@ import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -18,22 +19,23 @@ import java.util.ArrayList;
  */
 public class Sensor extends FragmentActivity implements SensorEventListener {
 
-    private SensorManager sensorManager;
+    public SensorManager sensorManager;
+    public LatLng latLng;
     private float threshold = 5;
-    private GoogleMap mMap;
-    private Location location;
     private float current;
     private float latest;
     private ArrayList<Reading> readingsList = new ArrayList<Reading>();
 
     public Sensor()
     {
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+    }
 
+    public void sensorListener(){
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(android.hardware.Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
     }
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == android.hardware.Sensor.TYPE_ACCELEROMETER) {
@@ -41,18 +43,24 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
         }
     }
 
-
-
-
     @Override
     public void onAccuracyChanged(android.hardware.Sensor sensor, int accuracy) {
 
     }
 
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
+
     public float sumOfReadings()
     {
         float sum=0;
-        for(int i = 0; i > readingsList.size() ; i++)
+        for(int i = 0; i < readingsList.size() ; i++)
         {
             sum += readingsList.get(i).getReading();
         }
@@ -84,8 +92,7 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
 
                 if (sumOfReadings() > threshold)
                 {
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(location.getLatitude(), location.getLongitude())));
+                    setLatLng(new LatLng(55.3965, 10.3827));
                 }
             }
         }
