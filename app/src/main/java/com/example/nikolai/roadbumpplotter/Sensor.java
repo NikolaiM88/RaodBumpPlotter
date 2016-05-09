@@ -25,9 +25,11 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
     private float current;
     private float latest;
     private ArrayList<Reading> readingsList = new ArrayList<Reading>();
+    MapsActivity mapsActivity1;
 
-    public Sensor()
+    public Sensor(MapsActivity mapsActivity)
     {
+        mapsActivity1 = mapsActivity;
     }
 
     public void sensorListener(){
@@ -92,7 +94,7 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
 
                 if (sumOfReadings() > threshold)
                 {
-                    setLatLng(new LatLng(55.3965, 10.3827));
+                    mapsActivity1.newPlot(new LatLng(5.123123, 8.123213));
                 }
             }
         }
