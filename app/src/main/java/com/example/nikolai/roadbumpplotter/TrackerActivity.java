@@ -20,7 +20,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class TrackerActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -29,6 +32,7 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
     private GoogleMap map;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    // coordinates for the center of Odense
     private LatLng defaultLatLng = new LatLng(55.3965,10.3827);
     private float zoomLevel = 11;
 
@@ -101,5 +105,23 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng,zoomLevel));
+
+        // Flat markers will rotate when the map is rotated,
+        // and change perspective when the map is tilted.
+        googleMap.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.bicycle))
+                .position(defaultLatLng)
+                .flat(true)
+                .rotation(0));
+
+        CameraPosition cameraPosition = CameraPosition.builder()
+                .target(defaultLatLng)
+                .zoom(13)
+                .bearing(0)
+                .build();
+
+        // Animate the change in camera view over 2 seconds
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),
+                2000, null);
     }
 }
