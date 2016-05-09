@@ -1,10 +1,19 @@
 package com.example.nikolai.roadbumpplotter;
 
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -26,10 +35,44 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
     private float latest;
     private ArrayList<Reading> readingsList = new ArrayList<Reading>();
     MapsActivity mapsActivity1;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    Location myCurrentLocation;
+    DatabaseHelper dbHelper;
+    SQLiteDatabase db;
+    Context localContext;
 
-    public Sensor(MapsActivity mapsActivity)
+    public Sensor(Context context)
     {
-        mapsActivity1 = mapsActivity;
+        localContext = context;
+        dbHelper = new DatabaseHelper(localContext);
+        db  = dbHelper.getWritableDatabase();
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                myCurrentLocation = location;
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        };
+
+
     }
 
     public void sensorListener(){
@@ -94,11 +137,13 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
 
                 if (sumOfReadings() > threshold)
                 {
-                    mapsActivity1.newPlot(new LatLng(5.123123, 8.123213));
+                    
                 }
             }
         }
     });
+
+
 
     private class Reading {
         private float reading;

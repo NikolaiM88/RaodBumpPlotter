@@ -27,7 +27,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        sensor = new Sensor(MapsActivity.this);
+        sensor = new Sensor();
         sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor.sensorListener();
         sensor.magThread.start();
