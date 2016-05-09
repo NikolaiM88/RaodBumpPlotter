@@ -16,12 +16,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class TrackerActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+
+public class TrackerActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Button button;
     private TextView textView;
+    private GoogleMap map;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private LatLng defaultLatLng = new LatLng(55.3965,10.3827);
+    private float zoomLevel = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +38,15 @@ public class TrackerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tracker);
 
         button = (Button) findViewById(R.id.coordinates);
-        textView = (TextView) findViewById(R.id.coordinates_text);
+
+        MapFragment fMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.googleMap));
+        fMap.getMapAsync(this);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                textView.append("Lat: " + location.getLatitude() + "\nLong: " + location.getLongitude()+ "\n");
+
             }
 
             @Override
@@ -82,8 +93,13 @@ public class TrackerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // There is nothing wrong with this line, it only wants to ask for permission but it
                 // is handled earlier in the onCreate method
-                locationManager.requestLocationUpdates("gps", 1000, 0, locationListener);
+                locationManager.requestLocationUpdates("gps", 500, 0, locationListener);
             }
         });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng,zoomLevel));
     }
 }

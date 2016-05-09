@@ -27,10 +27,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        sensor = new Sensor();
-        sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensor.sensorListener();
-        sensor.magThread.start();
+//        sensor = new Sensor();
+//        sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+//        sensor.sensorListener();
+//        sensor.magThread.start();
     }
 
     @Override
@@ -55,10 +55,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        if(sensor.latLng != null){
-            mMap.addMarker(new MarkerOptions()
-                    .position(sensor.getLatLng()));
-        }
+        //Here is the bumps from the database supposed to be inserted, so the bumps is marked
+        //when the see bumps button is pressed.
+
+        //googleMap.addMarker(new MarkerOptions().position(new LatLng(55.3965, 10.3827)));
     }
 
     public void newPlot(LatLng latLng)
@@ -69,8 +69,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(Location location) {
         if(sensor.latLng != null){
-            mMap.addMarker(new MarkerOptions()
-                    .position(sensor.getLatLng()));
+            mMap.addMarker(new MarkerOptions().position(sensor.getLatLng()));
         }
     }
 }

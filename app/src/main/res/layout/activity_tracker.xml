@@ -15,21 +15,21 @@
         android:layout_height="wrap_content"
         android:text="@string/gps_coordinats"
         android:id="@+id/coordinates"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         android:padding="15dp"
-        android:textSize="30sp"
+        android:textSize="22sp"
         android:width="300sp"
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/common_google_signin_btn_text_dark_default"/>
 
-    <TextView
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/coordinates_text"
-        android:layout_below="@+id/coordinates"
-        android:layout_centerHorizontal="true"
-        android:textColor="#ffffff"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:layout_height="match_parent"
+        android:id="@+id/googleMap"
+        android:name="com.google.android.gms.maps.MapFragment"/>
 
 </RelativeLayout>
