@@ -33,9 +33,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + "LATITUDE DOUBLE, "
                     + "LONGTITUDE DOUBLE);");
         }
-        if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE DRINK ADD COLUMN FAVORITE NUMERIC;");
-        }
     }
 
     private static void insertPlot(SQLiteDatabase db, String name,
