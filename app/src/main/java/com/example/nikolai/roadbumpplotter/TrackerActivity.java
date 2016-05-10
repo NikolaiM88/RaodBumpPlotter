@@ -52,7 +52,18 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                map.clear();
 
+                MarkerOptions mo1 = new MarkerOptions();
+                mo1.position(new LatLng(location.getLatitude(),location.getLongitude()));
+
+
+                mo1.icon(BitmapDescriptorFactory.fromResource(R.mipmap.bicycle))
+                        .flat(true)
+                        .rotation(0);
+                map.addMarker(mo1);
+
+                map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(),location.getLongitude())));
             }
 
             @Override
@@ -119,7 +130,7 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
 
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(defaultLatLng)
-                .zoom(13)
+                .zoom(19)
                 .bearing(0)
                 .build();
 
@@ -130,13 +141,6 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onLocationChanged(Location location) {
-        map.clear();
-
-        MarkerOptions mo1 = new MarkerOptions();
-        mo1.position(new LatLng(location.getLatitude(),location.getLongitude()));
-
-        mo1.draggable(true);
-
     }
 
     @Override
