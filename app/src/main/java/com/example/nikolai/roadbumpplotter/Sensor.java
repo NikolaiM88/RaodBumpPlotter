@@ -30,7 +30,7 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
 
     public SensorManager sensorManager;
     public LatLng latLng;
-    private float threshold = 1;
+    private float threshold = 600;
     private float current;
     private float latest;
     private ArrayList<Reading> readingsList = new ArrayList<Reading>();

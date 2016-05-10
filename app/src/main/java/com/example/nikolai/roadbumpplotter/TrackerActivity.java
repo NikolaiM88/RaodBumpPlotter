@@ -63,7 +63,7 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
                         .rotation(0);
                 map.addMarker(mo1);
 
-                map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(),location.getLongitude())));
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),16));
             }
 
             @Override

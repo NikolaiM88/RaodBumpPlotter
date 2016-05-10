@@ -68,12 +68,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT LATITUDE, LONGTITUDE FROM PLOTS WHERE type='table'", null);
+        Cursor c = db.rawQuery("SELECT LATITUDE, LONGTITUDE FROM PLOTS", null);
 
         if (c.moveToFirst()) {
-            while ( !c.isAfterLast() ) {
-                mMap.addMarker(new MarkerOptions().position(new LatLng(c.getDouble(0), c.getDouble(1))));
-            }
+//            while ( !c.isAfterLast() ) {
+                googleMap.addMarker(new MarkerOptions().position(new LatLng(c.getDouble(0), c.getDouble(1))));
+//            }
         }
         c.close();
         db.close();
@@ -86,8 +86,5 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
-        if(sensor.latLng != null){
-            mMap.addMarker(new MarkerOptions().position(sensor.getLatLng()));
-        }
     }
 }
