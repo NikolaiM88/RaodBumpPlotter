@@ -37,6 +37,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        dbHelper = new DatabaseHelper(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         sensor = new Sensor(this, locationManager);
         sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -66,15 +67,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT LATITUDE, LONGTITUDE FROM PLOTS WHERE type='table'", null);
-        dbHelper = new DatabaseHelper(this);
-        db  = dbHelper.getWritableDatabase();;
 
         if (c.moveToFirst()) {
             while ( !c.isAfterLast() ) {
                 mMap.addMarker(new MarkerOptions().position(new LatLng(c.getDouble(0), c.getDouble(1))));
             }
         }
+        c.close();
+        db.close();
     }
 
     public void newPlot(LatLng latLng)

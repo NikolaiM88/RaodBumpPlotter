@@ -120,17 +120,9 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
         map = googleMap;
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng,zoomLevel));
 
-        // Flat markers will rotate when the map is rotated,
-        // and change perspective when the map is tilted.
-        googleMap.addMarker(new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.bicycle))
-                .position(defaultLatLng)
-                .flat(true)
-                .rotation(0));
-
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(defaultLatLng)
-                .zoom(19)
+                .zoom(12)
                 .bearing(0)
                 .build();
 
