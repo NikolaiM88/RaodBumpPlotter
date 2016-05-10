@@ -1,6 +1,8 @@
 package com.example.nikolai.roadbumpplotter;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -15,13 +17,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
     private Location location;
     private LocationManager locationManager;
     Sensor sensor;
-    Context localContext;
+    DatabaseHelper dbHelper;
+    SQLiteDatabase db;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +38,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        sensor = new Sensor(localContext, locationManager);
+        sensor = new Sensor(this, locationManager);
         sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor.sensorListener();
         sensor.magThread.start();
@@ -60,10 +66,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //Here is the bumps from the database supposed to be inserted, so the bumps is marked
-        //when the see bumps button is pressed.
+        Cursor c = db.rawQuery("SELECT LATITUDE, LONGTITUDE FROM PLOTS WHERE type='table'", null);
+        dbHelper = new DatabaseHelper(this);
+        db  = dbHelper.getWritableDatabase();;
 
-        //googleMap.addMarker(new MarkerOptions().position(new LatLng(55.3965, 10.3827)));
+        if (c.moveToFirst()) {
+            while ( !c.isAfterLast() ) {
+                mMap.addMarker(new MarkerOptions().position(new LatLng(c.getDouble(0), c.getDouble(1))));
+            }
+        }
     }
 
     public void newPlot(LatLng latLng)
