@@ -8,8 +8,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity  {
 
-    Button button;
-    Button button2;
+    Button button, button2, button3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +28,14 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),MapsActivity.class));
+            }
+        });
+
+        button3 = (Button) findViewById(R.id.exit_app);
+        button3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                finishAffinity();
             }
         });
     }
