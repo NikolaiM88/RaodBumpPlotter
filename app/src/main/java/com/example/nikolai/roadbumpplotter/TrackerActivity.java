@@ -20,12 +20,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class TrackerActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class TrackerActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private Button button;
     private TextView textView;
@@ -104,6 +106,7 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng,zoomLevel));
 
         // Flat markers will rotate when the map is rotated,
@@ -123,5 +126,31 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
         // Animate the change in camera view over 2 seconds
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),
                 2000, null);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        map.clear();
+
+        MarkerOptions mo1 = new MarkerOptions();
+        mo1.position(new LatLng(location.getLatitude(),location.getLongitude()));
+
+        mo1.draggable(true);
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

@@ -41,12 +41,12 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
     SQLiteDatabase db;
     Context localContext;
 
-    public Sensor(Context context)
+    public Sensor(Context context, LocationManager manager)
     {
         localContext = context;
         dbHelper = new DatabaseHelper(localContext);
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        this.locationManager = manager;
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {

@@ -1,7 +1,9 @@
 package com.example.nikolai.roadbumpplotter;
 
+import android.content.Context;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +19,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private Location location;
+    private LocationManager locationManager;
     Sensor sensor;
+    Context localContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +31,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-//        sensor = new Sensor();
-//        sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-//        sensor.sensorListener();
-//        sensor.magThread.start();
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        sensor = new Sensor(localContext, locationManager);
+        sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor.sensorListener();
+        sensor.magThread.start();
     }
 
     @Override
