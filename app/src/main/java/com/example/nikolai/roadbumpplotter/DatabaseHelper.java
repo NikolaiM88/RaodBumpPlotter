@@ -39,12 +39,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private static void insertPlot(SQLiteDatabase db, String name,
-                                    float latitude, float longtitude) {
+                                    double latitude, double longtitude) {
         ContentValues drinkValues = new ContentValues();
         drinkValues.put("NAME", name);
-        drinkValues.put("LATITUDE", (double) latitude);
-        drinkValues.put("LONGTITUDE", (double) longtitude);
-        db.insert("DRINK", null, drinkValues);
+        drinkValues.put("LATITUDE", latitude);
+        drinkValues.put("LONGTITUDE", longtitude);
+        db.insert("PLOTS", null, drinkValues);
     }
 
 }

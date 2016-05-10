@@ -34,7 +34,6 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
     private float current;
     private float latest;
     private ArrayList<Reading> readingsList = new ArrayList<Reading>();
-    MapsActivity mapsActivity1;
     private LocationManager locationManager;
     private LocationListener locationListener;
     Location myCurrentLocation;
@@ -46,7 +45,6 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
     {
         localContext = context;
         dbHelper = new DatabaseHelper(localContext);
-        db  = dbHelper.getWritableDatabase();
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -137,7 +135,13 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
 
                 if (sumOfReadings() > threshold)
                 {
-                    
+                    db  = dbHelper.getWritableDatabase();
+                    ContentValues cv=new ContentValues();
+                    cv.put("NAME", "Bump");
+                    cv.put("LATITUDE", myCurrentLocation.getLatitude());
+                    cv.put("LONGTITUDE", myCurrentLocation.getLongitude());
+                    db.insert("PLOTS", null, cv);
+                    db.close();
                 }
             }
         }
