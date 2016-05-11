@@ -10,3 +10,9 @@ The application makes use of google maps, where the user is plotted as a bicycle
 movement, the gps location is tracked and the movement is tracked with the accelerometer in the phone. For each spike in the 
 accelerometer a entry in the database is created, an that entry will be retrieved when the user clicks on the button "See Bumps".
 All bumps in the database is then plotted onto the google map.
+
+1. Press Track Bumps
+2.  - Start following
+3.  - ride your bike
+4. Return to front page and press see bumps
+5.  - All bumps stored in the database will be plotted.
