@@ -56,8 +56,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Cursor c = db.rawQuery("SELECT LATITUDE, LONGTITUDE FROM PLOTS", null);
 
         if (c.moveToFirst()) {
-            while (c.isAfterLast()) {
+            while (c.isAfterLast() == false) {
                 threadMap.addMarker(new MarkerOptions().position(new LatLng(c.getDouble(0), c.getDouble(1))));
+                c.moveToNext();
             }
         }
         c.close();
