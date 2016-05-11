@@ -29,24 +29,20 @@ import java.util.ArrayList;
 public class Sensor extends FragmentActivity implements SensorEventListener {
 
     public SensorManager sensorManager;
-    public LatLng latLng;
     private float threshold = 5;
     private float current;
     private float latest;
     private ArrayList<Reading> readingsList = new ArrayList<Reading>();
-    private LocationManager locationManager;
-    private LocationListener locationListener;
     Location myCurrentLocation;
     DatabaseHelper dbHelper;
     SQLiteDatabase db;
     Context localContext;
 
-    public Sensor(Context context, LocationListener listener)
+    public Sensor(Context context)
     {
         localContext = context;
         dbHelper = new DatabaseHelper(localContext);
 
-        this.locationListener = listener;
 
     }
 
@@ -142,5 +138,10 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
         public void setReading(float reading) {
             this.reading = reading;
         }
+    }
+
+    public void setLocaion (Location location)
+    {
+        myCurrentLocation = location;
     }
 }
