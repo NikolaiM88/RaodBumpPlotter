@@ -52,25 +52,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         threadMap = googleMap;
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                db = dbHelper.getReadableDatabase();
-                Cursor c = db.rawQuery("SELECT LATITUDE, LONGTITUDE FROM PLOTS", null);
+        db = dbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT LATITUDE, LONGTITUDE FROM PLOTS", null);
 
-                if (c.moveToFirst()) {
-//            while ( !c.isAfterLast() ) {
-                    threadMap.addMarker(new MarkerOptions().position(new LatLng(c.getDouble(0), c.getDouble(1))));
-//            }
-                }
-                c.close();
-                db.close();
+        if (c.moveToFirst()) {
+            while (c.isAfterLast()) {
+                threadMap.addMarker(new MarkerOptions().position(new LatLng(c.getDouble(0), c.getDouble(1))));
             }
-        });
-        thread.start();
+        }
+        c.close();
+        db.close();
     }
 
-    public void newPlot(LatLng latLng)
-    {
+    public void newPlot(LatLng latLng) {
         threadMap.addMarker(new MarkerOptions().position(latLng));
     }
 
