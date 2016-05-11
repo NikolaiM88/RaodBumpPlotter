@@ -100,7 +100,7 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
 
                 if (sumOfReadings() > threshold)
                 {
-                    try{
+                    if(myCurrentLocation != null){
                         db  = dbHelper.getWritableDatabase();
                         ContentValues cv=new ContentValues();
                         cv.put("NAME", "Bump");
@@ -108,8 +108,6 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
                         cv.put("LONGTITUDE", myCurrentLocation.getLongitude());
                         db.insert("PLOTS", null, cv);
                         db.close();
-                    } catch (Exception e){
-                        System.out.println("An error Occurred "+ e);
                     }
                 }
             }
