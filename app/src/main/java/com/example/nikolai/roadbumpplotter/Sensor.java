@@ -79,7 +79,17 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
     Thread magThread = new Thread(new Runnable() {
         public void run() {
             boolean running = true;
+            int counter = 0;
+            boolean counting = false;
             while(running) {
+                if(counting == true)
+                {
+                    counter++;
+                }
+                if(counter == 50)
+                {
+                    counting = false;
+                }
                 if (current != 0) {
                     if (readingsList.size() == 20) {
                         readingsList.remove(0);
@@ -101,13 +111,16 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
                 if (sumOfReadings() > threshold)
                 {
                     if(myCurrentLocation != null){
-                        db  = dbHelper.getWritableDatabase();
-                        ContentValues cv=new ContentValues();
-                        cv.put("NAME", "Bump");
-                        cv.put("LATITUDE", myCurrentLocation.getLatitude());
-                        cv.put("LONGTITUDE", myCurrentLocation.getLongitude());
-                        db.insert("PLOTS", null, cv);
-                        db.close();
+                        if(counting != true) {
+                            db = dbHelper.getWritableDatabase();
+                            ContentValues cv = new ContentValues();
+                            cv.put("NAME", "Bump");
+                            cv.put("LATITUDE", myCurrentLocation.getLatitude());
+                            cv.put("LONGTITUDE", myCurrentLocation.getLongitude());
+                            db.insert("PLOTS", null, cv);
+                            db.close();
+                            counting = true;
+                        }
                     }
                 }
             }
