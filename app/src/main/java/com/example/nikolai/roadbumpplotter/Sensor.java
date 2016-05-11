@@ -86,7 +86,7 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
                 {
                     counter++;
                 }
-                if(counter == 50)
+                if(counter == 100)
                 {
                     counting = false;
                 }
