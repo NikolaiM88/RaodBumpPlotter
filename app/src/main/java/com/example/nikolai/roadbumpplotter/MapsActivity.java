@@ -38,24 +38,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         dbHelper = new DatabaseHelper(this);
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        sensor = new Sensor(this, locationManager);
-        sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensor.sensorListener();
-        sensor.magThread.start();
     }
 
-    @Override
-    protected void onPause(){
-        super.onPause();
-        sensor.sensorManager.unregisterListener(sensor);
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        sensor.sensorListener();
-    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.

@@ -3,6 +3,7 @@ package com.example.nikolai.roadbumpplotter;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -37,6 +38,7 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
     // coordinates for the center of Odense
     private LatLng defaultLatLng = new LatLng(55.3965,10.3827);
     private float zoomLevel = 11;
+    private Sensor sensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,6 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
 
         MapFragment fMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.googleMap));
         fMap.getMapAsync(this);
-
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -93,6 +94,23 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
         } else {
             configureButton();
         }
+
+        sensor = new Sensor(this, locationManager);
+        sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor.sensorListener();
+        sensor.magThread.start();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        sensor.sensorManager.unregisterListener(sensor);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        sensor.sensorListener();
     }
 
     @Override
