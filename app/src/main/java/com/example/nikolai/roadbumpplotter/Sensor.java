@@ -30,7 +30,7 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
 
     public SensorManager sensorManager;
     public LatLng latLng;
-    private float threshold = 600;
+    private float threshold = 5;
     private float current;
     private float latest;
     private ArrayList<Reading> readingsList = new ArrayList<Reading>();
@@ -41,35 +41,12 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
     SQLiteDatabase db;
     Context localContext;
 
-    public Sensor(Context context, LocationManager manager)
+    public Sensor(Context context, LocationListener listener)
     {
         localContext = context;
         dbHelper = new DatabaseHelper(localContext);
 
-        this.locationManager = manager;
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                myCurrentLocation = location;
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        };
-
+        this.locationListener = listener;
 
     }
 
@@ -91,14 +68,6 @@ public class Sensor extends FragmentActivity implements SensorEventListener {
 
     }
 
-    public LatLng getLatLng() {
-        return latLng;
-    }
-
-
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
-    }
 
     public float sumOfReadings()
     {

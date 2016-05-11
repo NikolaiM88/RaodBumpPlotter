@@ -95,7 +95,7 @@ public class TrackerActivity extends AppCompatActivity implements OnMapReadyCall
             configureButton();
         }
 
-        sensor = new Sensor(this, locationManager);
+        sensor = new Sensor(this, locationListener);
         sensor.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor.sensorListener();
         sensor.magThread.start();
