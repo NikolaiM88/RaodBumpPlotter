@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
-    private GoogleMap mMap;
+    private GoogleMap threadMap;
     private Location location;
     private LocationManager locationManager;
     Sensor sensor;
@@ -67,21 +67,27 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT LATITUDE, LONGTITUDE FROM PLOTS", null);
+        threadMap = googleMap;
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                db = dbHelper.getReadableDatabase();
+                Cursor c = db.rawQuery("SELECT LATITUDE, LONGTITUDE FROM PLOTS", null);
 
-        if (c.moveToFirst()) {
+                if (c.moveToFirst()) {
 //            while ( !c.isAfterLast() ) {
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(c.getDouble(0), c.getDouble(1))));
+                    threadMap.addMarker(new MarkerOptions().position(new LatLng(c.getDouble(0), c.getDouble(1))));
 //            }
-        }
-        c.close();
-        db.close();
+                }
+                c.close();
+                db.close();
+            }
+        });
+        thread.start();
     }
 
     public void newPlot(LatLng latLng)
     {
-        mMap.addMarker(new MarkerOptions().position(latLng));
+        threadMap.addMarker(new MarkerOptions().position(latLng));
     }
 
     @Override
